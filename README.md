@@ -115,6 +115,27 @@ lt-cred-mech
 user=adcipt:adcipt20232
 ```
 
+Arquivo de configuração do acesso via rede local do `mosquitto`, `/etc/mosquitto/conf.d/local.conf`:
+
+```ini
+listener 1883
+```
+
+Arquivo de configuração de acesso via WebSocket, com NGINX como _proxy_ reverso, do `mosquitto`, `/etc/mosquitto/conf.d/remoto.conf`:
+
+```ini
+listener 8080 ::1
+protocol websockets
+```
+
+Arquivo de configuração da autenticação do `mosquitto`, `/etc/mosquitto/conf.d/senharemoto.conf`:
+
+```ini
+password_file /etc/mosquitto/pwfile
+```
+
+O arquivo com as senhas foi gerado pelo comando `mosquitto_passwd`.
+
 ### Serviços adicionados ao Systemd
 
 Serviço API, `/etc/systemd/system/api.service`:
