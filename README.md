@@ -4,7 +4,11 @@ Ver https://boidacarapreta.gitbook.io/feira-de-jogos/integracao-entre-jogos-e-ba
 
 ## Arquivos
 
-root@TELE-Ederson-feira-de-jogos:/opt/github/feira-de-jogos/nuvem/api# cat .env 
+### Variáveis de ambiente
+
+Arquivo `.env` do ramo `api`:
+
+```ini
 PGDATABASE="feira"
 PGPASSWORD="feira"
 PGHOST="localhost"
@@ -13,18 +17,24 @@ PGPORT="5432"
 PORT="3000"
 GOOGLE_CLIENT_ID="***" # ID de credencial criado no GCP
 COOKIE_SECRET="***" # Hash para gerar cookie
+```
 
-root@TELE-Ederson-feira-de-jogos:/opt/github/feira-de-jogos/nuvem/mqtt# cat .env 
+Arquivo `.env` do ramo `mqtt`:
+
+```ini
 MQTT_URI="mqtt://feira:feira@feira-de-jogos.sj.ifsc.edu.br"
 PGDATABASE="feira"
 PGPASSWORD="feira"
 PGHOST="localhost"
 PGUSER="feira"
 PGPORT="5432"
+```
 
-# cat /etc/nginx/sites-enabled/default 
-# site default
+### Serviços em rede
 
+_Site_ padrão do NGINX, `/etc/nginx/sites-enabled/default`:
+
+```
 server {
   listen 80;
   listen [::]:80;
@@ -32,20 +42,20 @@ server {
 
   if ($host = feira-de-jogos.sj.ifsc.edu.br) {
     return 301 https://$host$request_uri;
-  } # managed by Certbot
+  }
 
-  return 404; # managed by Certbot
+  return 404;
 }
 
 server {
-  listen [::]:443 http2 ssl ipv6only=on; # managed by Certbot
-  listen 443 http2 ssl; # managed by Certbot
-  server_name feira-de-jogos.sj.ifsc.edu.br; # managed by Certbot
+  listen [::]:443 http2 ssl ipv6only=on;
+  listen 443 http2 ssl;
+  server_name feira-de-jogos.sj.ifsc.edu.br;
   
-  ssl_certificate /etc/letsencrypt/live/feira-de-jogos.sj.ifsc.edu.br/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/feira-de-jogos.sj.ifsc.edu.br/privkey.pem; # managed by Certbot
-  include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+  ssl_certificate /etc/letsencrypt/live/feira-de-jogos.sj.ifsc.edu.br/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/feira-de-jogos.sj.ifsc.edu.br/privkey.pem;
+  include /etc/letsencrypt/options-ssl-nginx.conf;
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
   location /api/ {
     proxy_pass http://127.0.0.1:3000/api/;
@@ -69,10 +79,11 @@ server {
     try_files $uri $uri/ =404;
   }
 }
-
-- `/etc/turnserver.conf`:
-
 ```
+
+Arquivo padrão do Coturn, `/etc/turnserver.conf`:
+
+```ini
 cli-password=ifsc
 
 # Rede
@@ -104,7 +115,11 @@ lt-cred-mech
 user=adcipt:adcipt20232
 ```
 
-# cat /etc/systemd/system/api.service 
+### Serviços adicionados ao Systemd
+
+Serviço API, `/etc/systemd/system/api.service`:
+
+```ini
 [Unit]
 Description=Feira de jogos
 Documentation=https://github.com/feira-de-jogos/nuvem
@@ -118,8 +133,11 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+```
 
-# cat /etc/systemd/system/mqtt.service 
+Serviço API, `/etc/systemd/system/mqtt.service`:
+
+```ini
 [Unit]
 Description=Feira de jogos
 Documentation=https://github.com/feira-de-jogos/nuvem
@@ -133,3 +151,4 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+```
