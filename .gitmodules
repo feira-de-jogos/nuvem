@@ -1,0 +1,3 @@
+[submodule "v1/mqtt-api"]
+	path = v1/mqtt-api
+	url = https://github.com/feira-de-jogos/mqtt-api
