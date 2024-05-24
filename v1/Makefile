@@ -1,7 +1,11 @@
-all: down up
+all: stop start
 
-down:
-    docker compose down
+stop:
+	docker compose down
 
-up:
-    docker compose up -d
+start:
+	docker compose up -d
+  
+clean:
+	docker ps -a -q | xargs docker rm -f
+	docker images -q | xargs docker rmi -f

@@ -1,0 +1,26 @@
+services:
+  db:
+    env_file: ./db/.env
+    image: postgres
+    restart: always
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+  mqtt-api:
+    build:
+      context: mqtt-api
+    env_file: ./mqtt-api/.env
+    restart: always
+  mqtt-broker:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    restart: always
+    volumes:
+      - type: bind
+        read_only: true
+        source: ./mqtt-broker/mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
+      - type: bind
+        read_only: true
+        source: ./mqtt-broker/pwfile
+        target: /mosquitto/config/pwfile
