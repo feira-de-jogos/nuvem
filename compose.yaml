@@ -29,12 +29,13 @@ services:
       - rest-api
     environment:
       HOST: feira-de-jogos.dev.br
-      FRONTEND_ROOT: /opt/github/feira-de-jogos/nuvem/frontend
+      FRONTEND_ROOT: /frontend
     image: nginxinc/nginx-unprivileged
     volumes:
+      - ./http-proxy/templates:/etc/nginx/templates
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/et/nginx/fullchain.pem:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privekey.pem:/et/nginx/privkey.pem:ro
-      - ./http-proxy/templates:/etc/nginx/templates
+      - ./frontend:/frontend
     ports:
       - 8080:80
       - 8443:443
