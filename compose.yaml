@@ -1,0 +1,45 @@
+services:
+  db:
+    environment:
+      POSTGRES_PASSWORD: /run/secrets/db-postgres-password
+    image: postgres
+    restart: always
+    secrets:
+      - db-postgres-password
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+  rest-api:
+    build:
+      context: rest-api
+    depends_on:
+      - db
+    environment:
+      GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
+      PGDATABASE: feira
+      PGPASSWORD: feira
+      PGHOST: db
+      PGUSER: feira
+      PGPORT: 5432
+      PORT: 3000
+    restart: always
+    secrets:
+      - rest-api-google-client-id
+  http-proxy:
+    depends_on:
+      - rest-api
+    environment:
+      HOST: feira-de-jogos.dev.br
+      FRONTEND_ROOT: /opt/github/feira-de-jogos/nuvem/frontend
+    image: nginxinc/nginx-unprivileged
+    volumes:
+      - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/et/nginx/fullchain.pem:ro
+      - /etc/letsencrypt/live/feira-de-jogos.dev.br/privekey.pem:/et/nginx/privkey.pem:ro
+      - ./http-proxy/templates:/etc/nginx/templates
+    ports:
+      - 8080:80
+      - 8443:443
+secrets:
+  db-postgres-password:
+    file: env-db-postgres-password
+  rest-api-google-client-id:
+    file: env-rest-api-google-client-id

@@ -1,3 +1,6 @@
-[submodule "v1/mqtt-api"]
-	path = v1/mqtt-api
-	url = https://github.com/feira-de-jogos/mqtt-api
+[submodule "rest-api"]
+	path = rest-api
+	url = https://github.com/feira-de-jogos/rest-api
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/feira-de-jogos/frontend
