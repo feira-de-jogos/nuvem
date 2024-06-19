@@ -5,6 +5,7 @@ services:
     image: postgres
     restart: always
     secrets:
+      - db-feira-password
       - db-postgres-password
     volumes:
       - ./db/data:/var/lib/postgresql/data
@@ -16,7 +17,7 @@ services:
     environment:
       GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
       PGDATABASE: feira
-      PGPASSWORD: feira
+      PGPASSWORD: /run/secrets/db-feira-password
       PGHOST: db
       PGUSER: feira
       PGPORT: 5432
@@ -40,6 +41,8 @@ services:
       - 8080:80
       - 8443:443
 secrets:
+  db-feira-password:
+    file: env-db-feira-password
   db-postgres-password:
     file: env-db-postgres-password
   rest-api-google-client-id:
