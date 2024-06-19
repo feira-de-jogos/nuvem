@@ -10,12 +10,12 @@ server {
 }
 
 server {
-  listen [::]:443 http2 ssl ipv6only=on;
-  listen 443 http2 ssl;
+  listen [::]:8443 http2 ssl ipv6only=on;
+  listen 8443 http2 ssl;
 
-  ssl_certificate /etc/nginx/${HOST}/fullchain.pem;
-  ssl_certificate_key /etc/nginx/${HOST}/privkey.pem;
-  ssl_dhparam /etc/nginx/ssl-dhparams.pem;
+  ssl_certificate /etc/nginx/fullchain.pem;
+  ssl_certificate_key /etc/nginx/privkey.pem;
+  #ssl_dhparam /etc/nginx/ssl-dhparams.pem;
   ssl_session_timeout 1d;
   ssl_session_cache shared:MozSSL:10m;
   ssl_session_tickets off;

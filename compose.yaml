@@ -34,12 +34,12 @@ services:
     image: nginxinc/nginx-unprivileged
     volumes:
       - ./http-proxy/templates:/etc/nginx/templates
-      - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/et/nginx/fullchain.pem:ro
-      - /etc/letsencrypt/live/feira-de-jogos.dev.br/privekey.pem:/et/nginx/privkey.pem:ro
+      - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
+      - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
       - ./frontend:/frontend
     ports:
-      - 8080:80
-      - 8443:443
+      - 80:8080
+      - 443:8443
 secrets:
   db-feira-password:
     file: env-db-feira-password
