@@ -1,6 +1,7 @@
 services:
   db:
     environment:
+      POSTGRES_USER: feira
       POSTGRES_PASSWORD: /run/secrets/db-postgres-password
     image: postgres
     restart: always
@@ -33,10 +34,10 @@ services:
       FRONTEND_ROOT: /frontend
     image: nginxinc/nginx-unprivileged
     volumes:
-      - ./http-proxy/templates:/etc/nginx/templates
+      - ./http-proxy/templates:/etc/nginx/templates:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
-      - ./frontend:/frontend
+      - ./frontend:/frontend:ro
     ports:
       - 80:8080
       - 443:8443
