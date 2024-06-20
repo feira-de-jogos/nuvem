@@ -32,6 +32,7 @@ services:
     environment:
       HOST: feira-de-jogos.dev.br
       FRONTEND_ROOT: /frontend
+      RESTAPI_PORT: 3000
     image: nginxinc/nginx-unprivileged
     volumes:
       - ./http-proxy/templates:/etc/nginx/templates:ro
