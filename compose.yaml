@@ -4,44 +4,48 @@ services:
       POSTGRES_USER: feira
       POSTGRES_PASSWORD: /run/secrets/db-postgres-password
     image: postgres
+    network_mode: host
     restart: always
     secrets:
       - db-feira-password
       - db-postgres-password
     volumes:
       - ./db/data:/var/lib/postgresql/data
-  rest-api:
-    build:
-      context: rest-api
-    depends_on:
-      - db
-    environment:
-      GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
-      PGDATABASE: feira
-      PGPASSWORD: /run/secrets/db-feira-password
-      PGHOST: db
-      PGUSER: feira
-      PGPORT: 5432
-      PORT: 3000
-    restart: always
-    secrets:
-      - rest-api-google-client-id
+  # rest-api:
+  #   build:
+  #     context: rest-api
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
+  #     PGDATABASE: feira
+  #     PGPASSWORD: /run/secrets/db-feira-password
+  #     PGHOST: localhost
+  #     PGUSER: feira
+  #     PGPORT: 5432
+  #     PORT: 3000
+  #   restart: always
+  #   secrets:
+  #     - rest-api-google-client-id
   http-proxy:
-    depends_on:
-      - rest-api
+    # depends_on:
+    #   - rest-api
     environment:
       HOST: feira-de-jogos.dev.br
       FRONTEND_ROOT: /frontend
+      RESTAPI_HOST: localhost
       RESTAPI_PORT: 3000
-    image: nginxinc/nginx-unprivileged
+      RESTAPI_RESOURCE: /api/v2/
+    image: nginx
+    network_mode: host
     volumes:
       - ./http-proxy/templates:/etc/nginx/templates:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
       - ./frontend:/frontend:ro
-    ports:
-      - 80:8080
-      - 443:8443
+    # ports:
+    #   - 80:8080
+    #   - 443:8443
 secrets:
   db-feira-password:
     file: env-db-feira-password
