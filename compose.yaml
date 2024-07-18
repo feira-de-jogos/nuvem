@@ -27,13 +27,13 @@ services:
   #   restart: always
   #   secrets:
   #     - rest-api-google-client-id
-  adcieqipt20241:
-    build:
-      context: adcieqipt20241
-    environment:
-      - PORT=24100
-    network_mode: host
-    restart: always
+  # adcieqipt20241:
+  #   build:
+  #     context: adcieqipt20241
+  #   environment:
+  #     - PORT=24100
+  #   network_mode: host
+  #   restart: always
   http-proxy:
     # depends_on:
     #   - rest-api
