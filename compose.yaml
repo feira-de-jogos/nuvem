@@ -2,36 +2,23 @@ services:
   db:
     environment:
       POSTGRES_USER: feira
-      POSTGRES_PASSWORD: /run/secrets/db-postgres-password
-    expose:
-      - 5432/tcp
+      POSTGRES_PASSWORD_FILE: /run/secrets/db
+    # expose:
+    #   - 5432/tcp
     image: postgres
     restart: always
     secrets:
-      - db-feira-password
-      - db-postgres-password
+      - db
     volumes:
       - ./db/data:/var/lib/postgresql/data
   rest-api:
     command: "npm start"
     depends_on:
       - db
-    environment:
-      GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
-      NODE_ENV: production
-      PGDATABASE: feira
-      PGPASSWORD: /run/secrets/db-feira-password
-      PGHOST: localhost
-      PGUSER: feira
-      PGPORT: 5432
-      PORT: 3000
     expose:
       - 3000/tcp
     image: node
     restart: always
-    secrets:
-      - db-feira-password
-      - rest-api-google-client-id
     user: "node"
     volumes:
       - ./rest-api:/home/node/app
@@ -70,9 +57,5 @@ services:
     volumes:
       - ./stun/coturn.conf:/etc/turnserver.conf:ro
 secrets:
-  db-feira-password:
-    file: env-db-feira-password
-  db-postgres-password:
-    file: env-db-postgres-password
-  rest-api-google-client-id:
-    file: env-rest-api-google-client-id
+  db:
+    file: secret-db
