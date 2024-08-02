@@ -3,56 +3,64 @@ services:
     environment:
       POSTGRES_USER: feira
       POSTGRES_PASSWORD: /run/secrets/db-postgres-password
+    expose:
+      - 5432/tcp
     image: postgres
-    network_mode: host
     restart: always
     secrets:
       - db-feira-password
       - db-postgres-password
     volumes:
       - ./db/data:/var/lib/postgresql/data
-  # rest-api:
-  #   build:
-  #     context: rest-api
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
-  #     PGDATABASE: feira
-  #     PGPASSWORD: /run/secrets/db-feira-password
-  #     PGHOST: localhost
-  #     PGUSER: feira
-  #     PGPORT: 5432
-  #     PORT: 3000
-  #   restart: always
-  #   secrets:
-  #     - rest-api-google-client-id
+  rest-api:
+    command: "npm start"
+    depends_on:
+      - db
+    environment:
+      GOOGLE_CLIENT_ID: /run/secrets/rest-api-google-client-id
+      NODE_ENV: production
+      PGDATABASE: feira
+      PGPASSWORD: /run/secrets/db-feira-password
+      PGHOST: localhost
+      PGUSER: feira
+      PGPORT: 5432
+      PORT: 3000
+    expose:
+      - 3000/tcp
+    image: node
+    restart: always
+    secrets:
+      - db-feira-password
+      - rest-api-google-client-id
+    user: "node"
+    volumes:
+      - ./rest-api:/home/node/app
+    working_dir: /home/node/app
   adcieqipt20241:
-    build:
-      context: adcieqipt20241
+    command: "npm start"
     environment:
       - PORT=24100
-    network_mode: host
+    expose:
+      - 24100/tcp
+    image: node
     restart: always
-  http-proxy:
-    # depends_on:
-    #   - rest-api
-    environment:
-      HOST: feira-de-jogos.dev.br
-      FRONTEND_ROOT: /frontend
-      RESTAPI_HOST: localhost
-      RESTAPI_PORT: 3000
-      RESTAPI_RESOURCE: /api/v2/
-    image: nginx
-    network_mode: host
+    user: "node"
     volumes:
-      - ./http-proxy/templates:/etc/nginx/templates:ro
+      - ./adcieqipt20241:/home/node/app
+    working_dir: /home/node/app
+  http-proxy:
+    depends_on:
+      - adcieqipt20241
+      - rest-api
+    image: nginxinc/nginx-unprivileged
+    volumes:
+      - ./http-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
       - ./frontend:/frontend:ro
-    # ports:
-    #   - 80:8080
-    #   - 443:8443
+    ports:
+      - 80:8080
+      - 443:8443
   stun:
     environment:
       DETECT_EXTERNAL_IP: yes
