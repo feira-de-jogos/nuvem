@@ -11,7 +11,7 @@ services:
       - db
     volumes:
       - ./db/data:/var/lib/postgresql/data
-  rest-api:
+  rest-api-1: &rest-api
     command: "npm start"
     depends_on:
       - db
@@ -23,6 +23,10 @@ services:
     volumes:
       - ./rest-api:/home/node/app
     working_dir: /home/node/app
+  rest-api-2:
+    <<: *rest-api
+  rest-api-3:
+    <<: *rest-api
   adcieqipt20241:
     command: "npm start"
     environment:
@@ -37,8 +41,10 @@ services:
     working_dir: /home/node/app
   http-proxy:
     depends_on:
+      - rest-api-1
+      - rest-api-2
+      - rest-api-3
       - adcieqipt20241
-      - rest-api
     image: nginx
     ports:
       - 80:80/tcp
