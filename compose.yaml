@@ -3,36 +3,26 @@ services:
     environment:
       POSTGRES_USER: feira
       POSTGRES_PASSWORD_FILE: /run/secrets/db
-    # expose:
-    #   - 5432/tcp
     image: postgres
     restart: always
     secrets:
       - db
     volumes:
       - ./db/data:/var/lib/postgresql/data
-  rest-api-1: &rest-api
+  rest-api:
     command: "npm start"
     depends_on:
       - db
-    expose:
-      - 3000/tcp
     image: node
     restart: always
     user: "node"
     volumes:
       - ./rest-api:/home/node/app
     working_dir: /home/node/app
-  rest-api-2:
-    <<: *rest-api
-  rest-api-3:
-    <<: *rest-api
   adcieqipt20241:
     command: "npm start"
     environment:
       - PORT=24100
-    expose:
-      - 24100/tcp
     image: node
     restart: always
     user: "node"
@@ -41,9 +31,7 @@ services:
     working_dir: /home/node/app
   http-proxy:
     depends_on:
-      - rest-api-1
-      - rest-api-2
-      - rest-api-3
+      - rest-api
       - adcieqipt20241
     image: nginx
     ports:
