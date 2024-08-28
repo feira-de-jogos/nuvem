@@ -10,16 +10,6 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/rest-api/servidor.js"
-    },
-    {
-      "cwd": "${workspaceFolder}/adcieqipt20241",
-      "type": "node",
-      "request": "launch",
-      "name": "Jogo de Teste",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/adcieqipt20241/servidor.js"
     }
   ]
 }

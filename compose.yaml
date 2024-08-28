@@ -19,20 +19,9 @@ services:
     volumes:
       - ./rest-api:/home/node/app
     working_dir: /home/node/app
-  adcieqipt20241:
-    command: "npm start"
-    environment:
-      - PORT=24100
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./adcieqipt20241:/home/node/app
-    working_dir: /home/node/app
   http-proxy:
     depends_on:
       - rest-api
-      - adcieqipt20241
     image: nginx
     ports:
       - 80:80/tcp

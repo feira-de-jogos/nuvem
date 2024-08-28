@@ -4,6 +4,3 @@
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/feira-de-jogos/frontend
-[submodule "adcieqipt20241"]
-	path = adcieqipt20241
-	url = https://github.com/ederson-torresini/adcieqipt20241
