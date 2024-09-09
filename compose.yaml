@@ -19,9 +19,75 @@ services:
     volumes:
       - ./rest-api:/home/node/app
     working_dir: /home/node/app
+  adcieqipt20241-huntersofancientbeasts-jogo:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./adcieqipt20241-huntersofancientbeasts-jogo:/home/node/app
+    working_dir: /home/node/app
+  adcieqipt20241-Karolzinha-e-Loulou-avadakedavra:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./adcieqipt20241-Karolzinha-e-Loulou-avadakedavra:/home/node/app
+    working_dir: /home/node/app
+  adcieqipt20241-nlentertainment-jogo:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./adcieqipt20241-nlentertainment-jogo:/home/node/app
+    working_dir: /home/node/app
+  adcieqipt20241-Thuthu-e-Aninha-jogo:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./adcieqipt20241-Thuthu-e-Aninha-jogo:/home/node/app
+    working_dir: /home/node/app
+  adcieqipt20241-vimdoalegrete-jogo:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./adcieqipt20241-vimdoalegrete-jogo:/home/node/app
+    working_dir: /home/node/app
+  adcieqipt20241-vitorhlmm-Jogo:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./adcieqipt20241-vitorhlmm-Jogo:/home/node/app
+    working_dir: /home/node/app
   http-proxy:
     depends_on:
       - rest-api
+      - adcieqipt20241-huntersofancientbeasts-jogo
+      - adcieqipt20241-Karolzinha-e-Loulou-avadakedavra
+      - adcieqipt20241-nlentertainment-jogo
+      - adcieqipt20241-Thuthu-e-Aninha-jogo
+      - adcieqipt20241-vimdoalegrete-jogo
+      - adcieqipt20241-vitorhlmm-Jogo
     image: nginx
     ports:
       - 80:80/tcp
