@@ -79,6 +79,16 @@ services:
     volumes:
       - ./jogos/adcieqipt20241-vitorhlmm-Jogo:/home/node/app
     working_dir: /home/node/app
+  adcipt20242:
+    command: "npm start"
+    environment:
+      - PORT=3000
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./jogos/adcipt20242:/home/node/app
+    working_dir: /home/node/app
   http-proxy:
     depends_on:
       - rest-api
