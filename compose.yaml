@@ -79,7 +79,7 @@ services:
     volumes:
       - ./jogos/adcieqipt20241-vitorhlmm-Jogo:/home/node/app
     working_dir: /home/node/app
-  adcipt20242:
+  adcipt20242-n-k-corporeichom-Misterios-do-amor-:
     command: "npm start"
     environment:
       - PORT=3000
@@ -87,7 +87,7 @@ services:
     restart: always
     user: "node"
     volumes:
-      - ./jogos/adcipt20242:/home/node/app
+      - ./jogos/adcipt20242-n-k-corporeichom-Misterios-do-amor-:/home/node/app
     working_dir: /home/node/app
   http-proxy:
     depends_on:
