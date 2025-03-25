@@ -19,66 +19,6 @@ services:
     volumes:
       - ./rest-api:/home/node/app
     working_dir: /home/node/app
-  adcieqipt20241-huntersofancientbeasts-jogo:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcieqipt20241-huntersofancientbeasts-jogo:/home/node/app
-    working_dir: /home/node/app
-  adcieqipt20241-Karolzinha-e-Loulou-avadakedavra:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcieqipt20241-Karolzinha-e-Loulou-avadakedavra:/home/node/app
-    working_dir: /home/node/app
-  adcieqipt20241-nlentertainment-jogo:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcieqipt20241-nlentertainment-jogo:/home/node/app
-    working_dir: /home/node/app
-  adcieqipt20241-Thuthu-e-Aninha-jogo:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcieqipt20241-Thuthu-e-Aninha-jogo:/home/node/app
-    working_dir: /home/node/app
-  adcieqipt20241-vimdoalegrete-jogo:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcieqipt20241-vimdoalegrete-jogo:/home/node/app
-    working_dir: /home/node/app
-  adcieqipt20241-vitorhlmm-Jogo:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcieqipt20241-vitorhlmm-Jogo:/home/node/app
-    working_dir: /home/node/app
   adcipt20242-n-k-corporeichom-Misterios-do-amor-:
     command: "npm start"
     environment:
@@ -92,12 +32,6 @@ services:
   http-proxy:
     depends_on:
       - rest-api
-      - adcieqipt20241-huntersofancientbeasts-jogo
-      - adcieqipt20241-Karolzinha-e-Loulou-avadakedavra
-      - adcieqipt20241-nlentertainment-jogo
-      - adcieqipt20241-Thuthu-e-Aninha-jogo
-      - adcieqipt20241-vimdoalegrete-jogo
-      - adcieqipt20241-vitorhlmm-Jogo
     image: nginx
     ports:
       - 80:80/tcp
@@ -107,6 +41,12 @@ services:
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
       - ./frontend:/frontend:ro
+      - ./jogos/adcieqipt20241-huntersofancientbeasts-jogo:/jogos/adcieqipt20241-huntersofancientbeasts-jogo:ro
+      - ./jogos/adcieqipt20241-Karolzinha-e-Loulou-avadakedavra:/jogos/adcieqipt20241-Karolzinha-e-Loulou-avadakedavra:ro
+      - ./jogos/adcieqipt20241-nlentertainment-jogo:/jogos/adcieqipt20241-nlentertainment-jogo:ro
+      - ./jogos/adcieqipt20241-Thuthu-e-Aninha-jogo:/jogos/adcieqipt20241-Thuthu-e-Aninha-jogo:ro
+      - ./jogos/adcieqipt20241-vimdoalegrete-jogo:/jogos/adcieqipt20241-vimdoalegrete-jogo:ro
+      - ./jogos/adcieqipt20241-vitorhlmm-Jogo:/jogos/adcieqipt20241-vitorhlmm-Jogo:ro
   redis:
     command: "redis-server --save 60 1 --loglevel warning"
     image: redis
