@@ -1,4 +1,11 @@
 services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    restart: always
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
   db:
     environment:
       POSTGRES_USER: feira
@@ -31,6 +38,7 @@ services:
     working_dir: /home/node/app
   http-proxy:
     depends_on:
+      - mqtt-broker
       - rest-api
     image: nginx
     ports:
