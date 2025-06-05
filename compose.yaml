@@ -26,16 +26,6 @@ services:
     volumes:
       - ./rest-api:/home/node/app:ro
     working_dir: /home/node/app
-  adcipt20242-n-k-corporeichom-Misterios-do-amor-:
-    command: "npm start"
-    environment:
-      - PORT=3000
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./jogos/adcipt20242-n-k-corporeichom-Misterios-do-amor-:/home/node/app
-    working_dir: /home/node/app
   http-proxy:
     depends_on:
       - mqtt-broker
